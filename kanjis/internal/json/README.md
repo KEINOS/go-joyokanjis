@@ -8,4 +8,11 @@ Taken from:
   - [https://en.wikipedia.org/wiki/List_of_j%C5%8Dy%C5%8D_kanji](https://en.wikipedia.org/wiki/List_of_j%C5%8Dy%C5%8D_kanji) @ Wikipedia
   - [https://github.com/cjkvi/cjkvi-tables/blob/master/joyo2010.txt](https://github.com/cjkvi/cjkvi-tables/blob/master/joyo2010.txt) @ GitHub
 
+If the directory is empty run the following command from the root of the repo to fetch the file:
+
+```shellsession
+$ go generate ./...
+OK
+```
+
 DO NOT EDIT THEM MANUALLY.
