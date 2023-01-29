@@ -54,7 +54,7 @@ func ExampleFixStringAsJoyo() {
 ```
 
 ```go
-// Fix a file to replace all ald kanji characters with Joyo Kanji (only if the
+// Fix a file to replace all old kanji characters with Joyo Kanji (only if the
 // old kanji is assigned to Joyo Kanji).
 //
 // This function is suitable if the input is larger than 320 Bytes.
