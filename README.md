@@ -1,6 +1,6 @@
 # go-joyokanjis
 
-`go-joyokanjis` is a simple Go library for Japanese writings that determines whether a given kanji character is [jōyō-kanji](https://en.wikipedia.org/wiki/J%C5%8Dy%C5%8D_kanji) (常用漢字, regular-use Chinese characters in Japan) or not.
+`go-joyokanjis` is a simple Go library for Japanese writings that lint or determines whether a given kanji character is [jōyō-kanji](https://en.wikipedia.org/wiki/J%C5%8Dy%C5%8D_kanji) (常用漢字, regular-use Chinese characters in Japan) or not.
 
 This library is based on Unicode and does not support other Japanese character encodings such as JIS/SJIS/EUC/etc.
 
