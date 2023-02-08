@@ -86,3 +86,30 @@ func ExampleFixFileAsJoyo() {
     // ――学校休暇の歌
 }
 ```
+
+## Benchmark
+
+```text
+goos: darwin
+goarch: amd64
+pkg: github.com/KEINOS/go-joyokanjis/kanjis
+cpu: Intel(R) Core(TM) i5-5257U CPU @ 2.70GHz
+
+name                           time/op
+_small_size/FixStringAsJoyo-4   288ns ± 1%
+_small_size/FixFileAsJoyo-4    6.34µs ± 2%
+_big_size/FixStringAsJoyo-4     265µs ± 1%
+_big_size/FixFileAsJoyo-4      6.37µs ± 1%
+
+name                           alloc/op
+_small_size/FixStringAsJoyo-4   0.00B
+_small_size/FixFileAsJoyo-4    8.70kB ± 0%
+_big_size/FixStringAsJoyo-4    47.7kB ± 0%
+_big_size/FixFileAsJoyo-4      8.70kB ± 0%
+
+name                           allocs/op
+_small_size/FixStringAsJoyo-4    0.00
+_small_size/FixFileAsJoyo-4      9.00 ± 0%
+_big_size/FixStringAsJoyo-4      2.00 ± 0%
+_big_size/FixFileAsJoyo-4        9.00 ± 0%
+```

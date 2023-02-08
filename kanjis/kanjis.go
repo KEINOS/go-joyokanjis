@@ -5,6 +5,7 @@ It provides functions to:
 
 1. Convert old kanji (kyujitai, 旧字体, 旧漢字) to new kanji (shinjitai, 新字体, 新漢字).
 1. Detect if the given character is a joyo kanji (常用漢字) from shinjitai (新字体・新漢字).
+1. Search for the readings (読み, yomi) of the given kanji.
 
 */
 //go:generate go run internal/converter.go
@@ -15,12 +16,11 @@ import (
 	"bytes"
 	_ "embed"
 	"io"
-	"log"
 
 	"github.com/KEINOS/go-joyokanjis/kanjis/internal/tool"
 	"github.com/KEINOS/go-joyokanjis/kanjis/kanji"
+	"github.com/KEINOS/go-joyokanjis/kanjis/transform"
 	"github.com/pkg/errors"
-	"github.com/tidwall/transform"
 )
 
 // Private global variables for singleton object.
@@ -38,10 +38,14 @@ var (
 // ----------------------------------------------------------------------------
 
 func init() {
+	initialize()
+}
+
+func initialize() {
 	// Extract and decode the embedded archived dictionary to kanjiDict when
 	// the package is imported.
 	if err := extractEmbeddedData(); err != nil {
-		log.Fatal(err)
+		panic(errors.Wrap(err, "initilization failed in package kanjis"))
 	}
 }
 
@@ -64,10 +68,6 @@ func FixRuneAsJoyo(char rune) rune {
 //
 // If the input is larger than 320 Bytes, consider using FixFileAsJoyo() instead.
 func FixStringAsJoyo(input string) string {
-	if input == "" {
-		return ""
-	}
-
 	inRune := []rune(input)
 	for i, char := range inRune {
 		inRune[i] = kanjiDict.FixAsJoyo(char)
@@ -78,7 +78,12 @@ func FixStringAsJoyo(input string) string {
 
 // FixFileAsJoyo is similar to FixRuneAsJoyo but for large data such as files.
 func FixFileAsJoyo(input io.Reader, output io.Writer) error {
+	if input == nil || output == nil {
+		return errors.New("input or output is nil")
+	}
+
 	sc := bufio.NewScanner(spawnWorker(input))
+
 	for sc.Scan() {
 		if _, err := output.Write([]byte(sc.Text() + "\n")); err != nil {
 			return errors.Wrap(err, "failed to write the output file")
@@ -92,9 +97,9 @@ func FixFileAsJoyo(input io.Reader, output io.Writer) error {
 	return nil
 }
 
-// IsJoyokanji returns true if the given rune is a Joyo Kanji character.
-func IsJoyokanji(char rune) bool {
-	return kanjiDict.IsJoyokanji(char)
+// IsJoyoKanji returns true if the given rune is a Joyo Kanji character.
+func IsJoyoKanji(char rune) bool {
+	return kanjiDict.IsJoyoKanji(char)
 }
 
 // LenDict returns the number of Joyo Kanjis registered in the dictionary.
@@ -106,15 +111,22 @@ func LenDict() int {
 //  Private functions
 // ----------------------------------------------------------------------------
 
+// extractEmbeddedData extracts the embedded GZipped Gob encoded dictionary and
+// sets the decoded data to kanjiDict object as a singleton.
 func extractEmbeddedData() error {
 	// Read embedded gzipped data
 	src := bytes.NewReader(gzData)
-	// Extract and decode the embedded GZipped Gob encoded data and assign to kanjiDict
-	err := tool.ExtractGzipGobToDict(src, &kanjiDict)
 
-	return errors.Wrap(err, "failed to extract and decode the embedded GZipped Gob encoded data")
+	// Extract and decode the embedded GZipped Gob encoded data and assign to
+	// kanjiDict
+	return errors.Wrap(tool.ExtractGzipGobToDict(src, &kanjiDict),
+		"failed to extract and decode the embedded GZipped Gob encoded data")
 }
 
+// spawnWorker returns a transform.Transformer object as an io.Reader that
+// performs the conversion during scanning the input data.
+//
+// It is a wrapper of FixRuneAsJoyo() to be used with bufio.Scanner.
 func spawnWorker(src io.Reader) io.Reader {
 	br := bufio.NewReader(src)
 

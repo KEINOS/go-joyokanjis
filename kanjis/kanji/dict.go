@@ -3,27 +3,98 @@ package kanji
 import (
 	"encoding/json"
 
+	"github.com/KEINOS/go-joyokanjis/kanjis/kana"
 	"github.com/pkg/errors"
 )
 
-// Dict is a map of Kanji objects. The key is the rune (int32) that represents
-// the Kanji.
+// ----------------------------------------------------------------------------
+//  Type: Dict
+// ----------------------------------------------------------------------------
+
+// Dict is a map of Kanji objects that works as a hash table.
+// The key is the rune (int32) that represents the Kanji.
 type Dict map[rune]Kanji
+
+// ----------------------------------------------------------------------------
+//  Constructor
+// ----------------------------------------------------------------------------
+
+// NewDict parses the JSON data of Joyo Kanji dictionary to kanji.Dict object.
+//
+// If the registered joyo kanji has an old kanji (kyu jitai), an alias key will
+// be added to the dictionary to speed up the search.
+//
+// See the following URL for the format of the JSON byte array:
+//
+//	https://gist.github.com/KEINOS/fb660943484008b7f5297bb627e0e1b1#format
+func NewDict(jsonDict []byte) (*Dict, error) {
+	tmpDict := new(Dict)
+
+	if err := json.Unmarshal(jsonDict, tmpDict); err != nil {
+		return nil, errors.Wrap(err, "failed to unmarshal JSON to Dict")
+	}
+
+	// Add KyuJitai to the dictionary
+	tmpDict.appendKyujitai()
+
+	return tmpDict, nil
+}
+
+// ----------------------------------------------------------------------------
+//  Methods
+// ----------------------------------------------------------------------------
+
+// appendKyujitai maps the Kyujitai (old kanjis) to the dictionary to speed up
+// the search. Searching with the old kanjis will return the same result as the
+// new kanjis.
+func (dict *Dict) appendKyujitai() {
+	// Add KyuJitai to the dictionary
+	for _, tmpKanji := range *dict {
+		if tmpKanji.KyuJitai == 0 {
+			continue
+		}
+
+		// Convert the KyuJitai to a rune
+		rKyuJitai := rune(tmpKanji.KyuJitai)
+
+		// Add the KyuJitai to the dictionary
+		if rKyuJitai != 0 {
+			tmpKanji.IsKyuJitai = true
+
+			(*dict)[rKyuJitai] = tmpKanji
+		}
+	}
+}
+
+// Find searches the given Kanji in the dictionary and returns the corresponding
+// Kanji object and a boolean value indicating if the Kanji was found.
+func (d Dict) Find(kanji rune) (Kanji, bool) {
+	foundKanji, found := d[kanji]
+
+	return foundKanji, found
+}
 
 // FixAsJoyo converts the given Kanji to the Joyo Kanji if it is a KyuJitai.
 // If the given Kanji is not a KyuJitai, then it returns as is.
 func (d Dict) FixAsJoyo(kanji rune) rune {
-	tmpKanji, ok := d[kanji]
-	if !ok || !tmpKanji.IsKyuJitai {
+	if !IsCJK(kanji) {
 		return kanji
 	}
 
-	//return []rune(tmpKanji.ShinJitai)[0]
+	tmpKanji, ok := d[kanji]
+	if !ok {
+		return kanji
+	}
+
+	if !tmpKanji.IsKyuJitai {
+		return kanji
+	}
+
 	return rune(tmpKanji.ShinJitai)
 }
 
-// IsJoyokanji returns true if the given Kanji is a Joyo Kanji.
-func (d Dict) IsJoyokanji(kanji rune) bool {
+// IsJoyoKanji returns true if the given Kanji is a Joyo Kanji.
+func (d Dict) IsJoyoKanji(kanji rune) bool {
 	if tmpKanji, ok := d[kanji]; ok {
 		return rune(tmpKanji.ShinJitai) == kanji
 	}
@@ -41,16 +112,20 @@ func (d Dict) IsKyuJitai(kanji rune) bool {
 }
 
 // KunYomi returns the KunYomi reading in hiragana of the given Kanji.
-func (d Dict) KunYomi(kanji rune) []string {
+func (d Dict) KunYomi(kanji rune) []kana.Kanas {
 	if tmpKanji, ok := d[kanji]; ok {
 		return tmpKanji.Yomi.KunYomi
 	}
 
-	return []string{}
+	return nil
 }
 
-// LenJoyo returns the number of Joyo Kanjis registered in the dictionary.
-// It does not count the KyuJitai kanji entry.
+// LenJoyo counts and returns the number of Joyo Kanji elements registered in
+// the dictionary.
+//
+// Notes:
+//   - It does not count the KyuJitai (old kanji) entry.
+//   - This method is not cached and is not suitable for frequent calls.
 func (d Dict) LenJoyo() int {
 	var count int
 
@@ -63,16 +138,10 @@ func (d Dict) LenJoyo() int {
 	return count
 }
 
-// OnYomi returns the OnYomi reading in katakana of the given Kanji.
-func (d Dict) OnYomi(kanji rune) []string {
-	if tmpKanji, ok := d[kanji]; ok {
-		return tmpKanji.Yomi.OnYomi
-	}
-
-	return []string{}
-}
-
 // Marshal returns the JSON encoding of the dictionary.
+//
+// It is similar to MarshalJSON implementation but it strips the additional
+// KyuJitai (old kanji) entries for search speed.
 func (d Dict) Marshal() ([]byte, error) {
 	byteJSON, err := json.Marshal(d.stripKyuJitai())
 
@@ -86,8 +155,17 @@ func (d Dict) MarshalIndent(prefix string, indent string) ([]byte, error) {
 	return byteJSON, errors.Wrap(err, "failed to marshal the dictionary")
 }
 
-// stripKyuJitai removes the kujitai entry (element with kyujitai key) from the
-// dictionary.
+// OnYomi returns the OnYomi reading in katakana of the given Kanji.
+func (d Dict) OnYomi(kanji rune) []kana.Kanas {
+	if tmpKanji, ok := d[kanji]; ok {
+		return tmpKanji.Yomi.OnYomi
+	}
+
+	return nil
+}
+
+// stripKyuJitai removes the ku_jitai entry (element with kyu_jitai key) from
+// the dictionary.
 func (d Dict) stripKyuJitai() Dict {
 	newDict := make(map[rune]Kanji, len(d))
 

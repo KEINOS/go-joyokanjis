@@ -6,9 +6,11 @@ import (
 	"path/filepath"
 	"strings"
 	"testing"
-
-	"github.com/mackerelio/go-osstat/memory"
 )
+
+// ----------------------------------------------------------------------------
+//  Benchmark
+// ----------------------------------------------------------------------------
 
 func Benchmark_small_size(b *testing.B) {
 	const input = "これは舊漢字です。"
@@ -52,6 +54,10 @@ func Benchmark_big_size(b *testing.B) {
 	})
 }
 
+// ----------------------------------------------------------------------------
+//  Helper Functions
+// ----------------------------------------------------------------------------
+
 var testDataBigSize string
 
 func getData(b *testing.B) string {
@@ -70,22 +76,4 @@ func getData(b *testing.B) string {
 	testDataBigSize = string(data)
 
 	return testDataBigSize
-}
-
-// memoryGet is a copy of memory.Get function to ease testing.
-var MemoryGet = memory.Get
-
-// AvailableMemory returns the amount of current available free memory.
-//
-// It will error if it fails to get the memory information. Mostly on platforms
-// such as NetBSD and OpenBSD.
-func AvailableMemory(b *testing.B) uint64 {
-	b.Helper()
-
-	mem, err := MemoryGet()
-	if err != nil {
-		b.Fatal(err)
-	}
-
-	return mem.Free
 }

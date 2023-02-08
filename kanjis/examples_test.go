@@ -92,14 +92,14 @@ func ExampleFixStringAsJoyo() {
 	// Output: これは旧漢字です。
 }
 
-func ExampleIsJoyokanji() {
+func ExampleIsJoyoKanji() {
 	newKanji := '漢'
-	if kanjis.IsJoyokanji(newKanji) {
+	if kanjis.IsJoyoKanji(newKanji) {
 		fmt.Printf("%s (0x%x) is Joyo Kanji\n", string(newKanji), newKanji)
 	}
 
 	oldKanji := '漢'
-	if !kanjis.IsJoyokanji(oldKanji) {
+	if !kanjis.IsJoyoKanji(oldKanji) {
 		fmt.Printf("%s (0x%x) is not a Joyo Kanji\n", string(oldKanji), oldKanji)
 	}
 

@@ -2,9 +2,18 @@ package kanji
 
 import "github.com/goccy/go-json"
 
-// KanjiChar is a rune that represents a Joyo Kanji. Which implements the Stringer,
+// ----------------------------------------------------------------------------
+//  Type: KanjiChar
+// ----------------------------------------------------------------------------
+
+// KanjiChar is a rune that represents a Kanji.
+// It is used to make rune readable in JSON format. It implements the Stringer,
 // Marshaler and Unmarshaler interface.
 type KanjiChar rune
+
+// ----------------------------------------------------------------------------
+//  Methods
+// ----------------------------------------------------------------------------
 
 // String returns the string representation of the KanjiChar.
 func (k KanjiChar) String() string {
