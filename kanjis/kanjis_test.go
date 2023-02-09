@@ -1,8 +1,10 @@
 package kanjis
 
 import (
+	"bufio"
 	"bytes"
 	"os"
+	"path/filepath"
 	"strings"
 	"sync"
 	"testing"
@@ -87,6 +89,59 @@ func TestFixFileAsJoyo_fail_during_read(t *testing.T) {
 		"it should fail during the scan")
 	assert.Contains(t, err.Error(), "failed to scan the input file",
 		"it should contain the error reason")
+}
+
+// ----------------------------------------------------------------------------
+//  FixRuneAsJoyo()
+// ----------------------------------------------------------------------------
+
+// This test detects if the given kanji is not in the Joyo Kanji list but has a
+// new kanji form. Meaning, not in Joyo Kanji but is in kanji.NonJoyoOld2NewMap.
+//
+// To add a new kanji, edit the file `kanji/non_joyo_old2new_map.go`.
+func TestFixRuneAsJoyo_new_old_comparison(t *testing.T) {
+	pathFileData := filepath.Join("testdata", "shin_kyu.txt")
+
+	ptrFile, err := os.Open(pathFileData)
+	require.NoError(t, err, "failed to open test data file")
+
+	defer ptrFile.Close()
+
+	scanner := bufio.NewScanner(ptrFile)
+
+	oldKanjis := []string{} // List of old kanjis
+	newKanjis := []string{} // List of new kanjis
+
+	count := 0
+
+	for scanner.Scan() {
+		count++
+
+		if count%2 == 0 {
+			lines := strings.Split(scanner.Text(), ",")
+			oldKanjis = append(oldKanjis, lines[1:]...)
+
+			continue
+		}
+
+		lines := strings.Split(scanner.Text(), ",")
+		newKanjis = append(newKanjis, lines[1:]...)
+	}
+
+	require.Equal(t, len(oldKanjis), len(newKanjis),
+		"oldKanjis and newKanjis should have the same length")
+
+	for index, oldKanji := range oldKanjis {
+		inputRune := []rune(oldKanji)[0]
+		expect := []rune(newKanjis[index])[0]
+
+		actual := FixRuneAsJoyo(inputRune) // Test fix
+
+		assert.Equal(t, expect, actual,
+			"old kanji %s (%d) should be converted to new kanji %s",
+			string(inputRune), inputRune,
+			string(expect))
+	}
 }
 
 // ----------------------------------------------------------------------------

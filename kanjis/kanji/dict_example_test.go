@@ -105,7 +105,8 @@ func ExampleDict_FixAsJoyo() {
 		{input: '樂', expect: '楽'}, // Registered old kanji
 		{input: '楽', expect: '楽'}, // Registered new kanji
 		{input: 'あ', expect: 'あ'}, // Non kanji (not CJK)
-		{input: '滯', expect: '滯'}, // Non registered kanji
+		{input: '滯', expect: '滯'}, // Non registered kanji in the JSON dictionary
+		{input: '亙', expect: '亘'}, // Non registered but NonJoyoOld2NewMap has the mapping
 	} {
 		expect := test.expect
 		actual := tmpDict.FixAsJoyo(test.input)
@@ -118,6 +119,7 @@ func ExampleDict_FixAsJoyo() {
 	// #2: 楽 expected to be: 楽, got: 楽
 	// #3: あ expected to be: あ, got: あ
 	// #4: 滯 expected to be: 滯, got: 滯
+	// #5: 亙 expected to be: 亘, got: 亘
 }
 
 // ----------------------------------------------------------------------------

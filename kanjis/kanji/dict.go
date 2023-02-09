@@ -21,7 +21,7 @@ type Dict map[rune]Kanji
 
 // NewDict parses the JSON data of Joyo Kanji dictionary to kanji.Dict object.
 //
-// If the registered joyo kanji has an old kanji (kyu jitai), an alias key will
+// If the registered Joyo Kanji has an old kanji (kyu jitai), an alias key will
 // be added to the dictionary to speed up the search.
 //
 // See the following URL for the format of the JSON byte array:
@@ -66,23 +66,36 @@ func (dict *Dict) appendKyujitai() {
 	}
 }
 
-// Find searches the given Kanji in the dictionary and returns the corresponding
-// Kanji object and a boolean value indicating if the Kanji was found.
+// Find searches the given Kanji in the Joyo Kanji dictionary and returns the
+// corresponding Kanji object.
+// The returned boolean value indicates if the Kanji was found.
 func (d Dict) Find(kanji rune) (Kanji, bool) {
 	foundKanji, found := d[kanji]
 
 	return foundKanji, found
 }
 
-// FixAsJoyo converts the given Kanji to the Joyo Kanji if it is a KyuJitai.
-// If the given Kanji is not a KyuJitai, then it returns as is.
+// FixAsJoyo converts the given Kanji to the Joyo Kanji (regular use kanji) or
+// Shin Jitai (new form of kanji) as much as possible.
+//
+// It will search the embedded Joyo Kanji dictionary then the Non-Joyo Kanji
+// (old-new kanji mapping) dictionary.
+//
+// To add a new kanji, edit the file `non_joyo_old2new_map.go`.
 func (d Dict) FixAsJoyo(kanji rune) rune {
 	if !IsCJK(kanji) {
 		return kanji
 	}
 
+	// Search the given Kanji in the Joyo Kanji dictionary
 	tmpKanji, ok := d[kanji]
 	if !ok {
+		// Search the given Kanji in the Non-Joyo Kanji dictionary.
+		// The returned kanji is the new kanji.
+		if newKanji, ok := NonJoyoOld2NewMap[kanji]; ok {
+			return newKanji
+		}
+
 		return kanji
 	}
 
@@ -103,9 +116,15 @@ func (d Dict) IsJoyoKanji(kanji rune) bool {
 }
 
 // IsKyuJitai returns true if the given Kanji is a KyuJitai (old kanji).
+//
+// Note that it only detects if the old kanji is registered in the dictionary.
 func (d Dict) IsKyuJitai(kanji rune) bool {
 	if tmpKanji, ok := d[kanji]; ok {
 		return rune(tmpKanji.KyuJitai) == kanji
+	}
+
+	if _, ok := NonJoyoOld2NewMap[kanji]; ok {
+		return true
 	}
 
 	return false
@@ -164,8 +183,8 @@ func (d Dict) OnYomi(kanji rune) []kana.Kanas {
 	return nil
 }
 
-// stripKyuJitai removes the ku_jitai entry (element with kyu_jitai key) from
-// the dictionary.
+// stripKyuJitai removes the elements only for speeding up the search from the
+// Joyo Kanji dictionary. Elements such as ku_jitai as a key.
 func (d Dict) stripKyuJitai() Dict {
 	newDict := make(map[rune]Kanji, len(d))
 

@@ -62,12 +62,18 @@ func Example() {
 	// Let's check if "滯"(28399, old kanji) is a joyo kanji (expecting false).
 	fmt.Println("Is 滯 joyo?:", tmpDict.IsJoyoKanji('滯'))
 
+	// The character '亙' is not in the dictionary. But it is in the default
+	// old-new kanji mapping list (kanji.NonJoyoOld2NewMap).
+	// So it is considered as an old kanji.
+	fmt.Println("Is 亙 old kanji?:", tmpDict.IsKyuJitai('亙'))
+
 	// For more examples of Dict type methods, see the godoc of Dict type.
 
 	// Output:
 	// Is 滞 joyo?: true
 	// Reading of 滞: On yomi: [タイ] Kun yomi: [とどこお]
 	// Is 滯 joyo?: false
+	// Is 亙 old kanji?: true
 }
 
 // ============================================================================

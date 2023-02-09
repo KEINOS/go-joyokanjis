@@ -29,8 +29,10 @@ var (
 	//
 	//go:embed internal/gzgob/dict.gzip
 	gzData []byte
-	// kanjiDict is the dictionary of Joyo Kanjis.
+	// kanjiDict is the singleton object that holds the Joyo Kanji dictionary.
 	kanjiDict kanji.Dict
+	// ignoreList
+	ignoreList map[rune]interface{}
 )
 
 // ----------------------------------------------------------------------------
@@ -38,12 +40,13 @@ var (
 // ----------------------------------------------------------------------------
 
 func init() {
+	// Spawn the singleton object of Joyo Kanji dictionary when the package is
+	// imported.
 	initialize()
 }
 
 func initialize() {
-	// Extract and decode the embedded archived dictionary to kanjiDict when
-	// the package is imported.
+	// Extract and decode the embedded archived dictionary to kanjiDict.
 	if err := extractEmbeddedData(); err != nil {
 		panic(errors.Wrap(err, "initilization failed in package kanjis"))
 	}
@@ -61,6 +64,14 @@ func initialize() {
 // Also note that kyujitai characters that do not have a shinjitai are returned
 // as is as well.
 func FixRuneAsJoyo(char rune) rune {
+	if ignoreList == nil {
+		return kanjiDict.FixAsJoyo(char)
+	}
+
+	if _, ok := ignoreList[char]; ok {
+		return char
+	}
+
 	return kanjiDict.FixAsJoyo(char)
 }
 
@@ -69,8 +80,9 @@ func FixRuneAsJoyo(char rune) rune {
 // If the input is larger than 320 Bytes, consider using FixFileAsJoyo() instead.
 func FixStringAsJoyo(input string) string {
 	inRune := []rune(input)
+
 	for i, char := range inRune {
-		inRune[i] = kanjiDict.FixAsJoyo(char)
+		inRune[i] = FixRuneAsJoyo(char)
 	}
 
 	return string(inRune)
@@ -97,14 +109,37 @@ func FixFileAsJoyo(input io.Reader, output io.Writer) error {
 	return nil
 }
 
+// Ignore adds the given characters to the ignore list. These characters will be
+// ignored when converting old kanji (kyujitai) to new kanji (shinjitai).
+func Ignore(char ...rune) {
+	if ignoreList == nil {
+		ignoreList = make(map[rune]interface{})
+	}
+
+	for _, c := range char {
+		ignoreList[c] = nil
+	}
+}
+
 // IsJoyoKanji returns true if the given rune is a Joyo Kanji character.
 func IsJoyoKanji(char rune) bool {
 	return kanjiDict.IsJoyoKanji(char)
 }
 
+// IsKyuJitai returns true if the given rune is a registered Kyujitai (old kanji)
+// character which contains a new kanji (shinjitai) in the dictionary.
+func IsKyuJitai(char rune) bool {
+	return kanjiDict.IsKyuJitai(char)
+}
+
 // LenDict returns the number of Joyo Kanjis registered in the dictionary.
 func LenDict() int {
 	return kanjiDict.LenJoyo()
+}
+
+// ResetIgnore clears the ignore list.
+func ResetIgnore() {
+	ignoreList = nil
 }
 
 // ----------------------------------------------------------------------------

@@ -2,6 +2,7 @@
 //	format to another.
 //
 // ----------------------------------------------------------------------------
+//
 // It is a part of the github.com/KEINOS/go-joyokanjis module.
 //
 //	https://github.com/KEINOS/go-joyokanjis/kanjis
@@ -13,8 +14,10 @@
 //
 // Due to the maintenance reasons, the file is copied here and modified to fit
 // the package.
+//
 // ----------------------------------------------------------------------------
-// ISC License
+//
+// # ISC License
 //
 // # Copyright (c) 2017, Joshua J Baker
 //
@@ -29,6 +32,7 @@
 // OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
 // TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF
 // THIS SOFTWARE.
+//
 // ----------------------------------------------------------------------------
 package transform
 
@@ -49,8 +53,9 @@ type Transformer struct {
 }
 
 // NewTransformer returns an object that can be used for transforming one data
-// formant to another. The param is a function that performs the conversion and
-// returns the transformed data in chunks/messages.
+// formant to another.
+// The param is a user function that performs the conversion and returns the
+// transformed data in chunks/messages.
 func NewTransformer(fn func() ([]byte, error)) *Transformer {
 	return &Transformer{tfn: fn}
 }

@@ -2,6 +2,8 @@
 
 `go-joyokanjis` is a simple Go library for Japanese writings that lint or determines whether a given kanji character is [jōyō-kanji](https://en.wikipedia.org/wiki/J%C5%8Dy%C5%8D_kanji) (常用漢字, regular-use Chinese characters in Japan) or not.
 
+Useful for uniforming the kanji characters in the writings.
+
 This library is based on Unicode and does not support other Japanese character encodings such as JIS/SJIS/EUC/etc.
 
 ## Usage
@@ -87,6 +89,28 @@ func ExampleFixFileAsJoyo() {
 }
 ```
 
+```go
+func ExampleIgnore() {
+    const input = "私は渡邉です。"
+
+    {
+        // Add '邉' and '邊' to be ignored when fixing.
+        kanjis.Ignore('邉', '邊')
+
+        fmt.Println("Fix with Ignore:", kanjis.FixStringAsJoyo(input))
+    }
+    {
+        // Clear the ignore list.
+        kanjis.ResetIgnore()
+
+        fmt.Println("Fix with no-ignore:", kanjis.FixStringAsJoyo(input))
+    }
+    // Output:
+    // Fix with Ignore: 私は渡邉です。
+    // Fix with no-ignore: 私は渡辺です。
+}
+```
+
 ## Benchmark
 
 ```text
@@ -96,19 +120,19 @@ pkg: github.com/KEINOS/go-joyokanjis/kanjis
 cpu: Intel(R) Core(TM) i5-5257U CPU @ 2.70GHz
 
 name                           time/op
-_small_size/FixStringAsJoyo-4   288ns ± 1%
-_small_size/FixFileAsJoyo-4    6.34µs ± 2%
-_big_size/FixStringAsJoyo-4     265µs ± 1%
-_big_size/FixFileAsJoyo-4      6.37µs ± 1%
+_small_size/FixStringAsJoyo-4   350ns ± 1%
+_small_size/FixFileAsJoyo-4    6.29µs ± 4%
+_big_size/FixStringAsJoyo-4     279µs ± 0%
+_big_size/FixFileAsJoyo-4      6.34µs ± 2%
 
 name                           alloc/op
-_small_size/FixStringAsJoyo-4   0.00B
+_small_size/FixStringAsJoyo-4   32.0B ± 0%
 _small_size/FixFileAsJoyo-4    8.70kB ± 0%
 _big_size/FixStringAsJoyo-4    47.7kB ± 0%
 _big_size/FixFileAsJoyo-4      8.70kB ± 0%
 
 name                           allocs/op
-_small_size/FixStringAsJoyo-4    0.00
+_small_size/FixStringAsJoyo-4    1.00 ± 0%
 _small_size/FixFileAsJoyo-4      9.00 ± 0%
 _big_size/FixStringAsJoyo-4      2.00 ± 0%
 _big_size/FixFileAsJoyo-4        9.00 ± 0%
