@@ -2,55 +2,55 @@ goos: darwin
 goarch: amd64
 pkg: github.com/KEINOS/go-joyokanjis/kanjis
 cpu: Intel(R) Core(TM) i5-5257U CPU @ 2.70GHz
-Benchmark_small_size/FixStringAsJoyo-4         	 3102900	       379.8 ns/op	      32 B/op	       1 allocs/op
-Benchmark_small_size/FixStringAsJoyo-4         	 3144170	       372.1 ns/op	      32 B/op	       1 allocs/op
-Benchmark_small_size/FixStringAsJoyo-4         	 2986123	       386.1 ns/op	      32 B/op	       1 allocs/op
-Benchmark_small_size/FixStringAsJoyo-4         	 2910392	       384.5 ns/op	      32 B/op	       1 allocs/op
-Benchmark_small_size/FixStringAsJoyo-4         	 3130654	       366.4 ns/op	      32 B/op	       1 allocs/op
-Benchmark_small_size/FixStringAsJoyo-4         	 3202086	       387.4 ns/op	      32 B/op	       1 allocs/op
-Benchmark_small_size/FixStringAsJoyo-4         	 3195690	       393.1 ns/op	      32 B/op	       1 allocs/op
-Benchmark_small_size/FixStringAsJoyo-4         	 3111578	       384.9 ns/op	      32 B/op	       1 allocs/op
-Benchmark_small_size/FixStringAsJoyo-4         	 3281384	       373.3 ns/op	      32 B/op	       1 allocs/op
-Benchmark_small_size/FixStringAsJoyo-4         	 2976876	       387.9 ns/op	      32 B/op	       1 allocs/op
-Benchmark_small_size/FixFileAsJoyo-4           	  235454	      4612 ns/op	    8352 B/op	       4 allocs/op
-Benchmark_small_size/FixFileAsJoyo-4           	  252828	      4677 ns/op	    8352 B/op	       4 allocs/op
-Benchmark_small_size/FixFileAsJoyo-4           	  193916	      6910 ns/op	    8352 B/op	       4 allocs/op
-Benchmark_small_size/FixFileAsJoyo-4           	   86875	     12364 ns/op	    8352 B/op	       4 allocs/op
-Benchmark_small_size/FixFileAsJoyo-4           	  117583	     11190 ns/op	    8352 B/op	       4 allocs/op
-Benchmark_small_size/FixFileAsJoyo-4           	  190461	      6888 ns/op	    8352 B/op	       4 allocs/op
-Benchmark_small_size/FixFileAsJoyo-4           	  198310	      7251 ns/op	    8352 B/op	       4 allocs/op
-Benchmark_small_size/FixFileAsJoyo-4           	  238068	      4442 ns/op	    8352 B/op	       4 allocs/op
-Benchmark_small_size/FixFileAsJoyo-4           	  259603	      4666 ns/op	    8352 B/op	       4 allocs/op
-Benchmark_small_size/FixFileAsJoyo-4           	  264066	      4982 ns/op	    8352 B/op	       4 allocs/op
-Benchmark_big_size/FixStringAsJoyo-4           	    4078	    305823 ns/op	   47744 B/op	       2 allocs/op
-Benchmark_big_size/FixStringAsJoyo-4           	    3957	    304750 ns/op	   47744 B/op	       2 allocs/op
-Benchmark_big_size/FixStringAsJoyo-4           	    3409	    304185 ns/op	   47744 B/op	       2 allocs/op
-Benchmark_big_size/FixStringAsJoyo-4           	    3727	    313695 ns/op	   47744 B/op	       2 allocs/op
-Benchmark_big_size/FixStringAsJoyo-4           	    3870	    311062 ns/op	   47744 B/op	       2 allocs/op
-Benchmark_big_size/FixStringAsJoyo-4           	    3610	    308456 ns/op	   47744 B/op	       2 allocs/op
-Benchmark_big_size/FixStringAsJoyo-4           	    4089	    326373 ns/op	   47744 B/op	       2 allocs/op
-Benchmark_big_size/FixStringAsJoyo-4           	    4107	    308521 ns/op	   47744 B/op	       2 allocs/op
-Benchmark_big_size/FixStringAsJoyo-4           	    4116	    309070 ns/op	   47744 B/op	       2 allocs/op
-Benchmark_big_size/FixStringAsJoyo-4           	    4051	    298103 ns/op	   47744 B/op	       2 allocs/op
-Benchmark_big_size/FixFileAsJoyo-4             	  260630	      5622 ns/op	    8352 B/op	       4 allocs/op
-Benchmark_big_size/FixFileAsJoyo-4             	  217167	      5397 ns/op	    8352 B/op	       4 allocs/op
-Benchmark_big_size/FixFileAsJoyo-4             	  269308	      4476 ns/op	    8352 B/op	       4 allocs/op
-Benchmark_big_size/FixFileAsJoyo-4             	  270288	      4461 ns/op	    8352 B/op	       4 allocs/op
-Benchmark_big_size/FixFileAsJoyo-4             	  244266	      4752 ns/op	    8352 B/op	       4 allocs/op
-Benchmark_big_size/FixFileAsJoyo-4             	  245035	      4740 ns/op	    8352 B/op	       4 allocs/op
-Benchmark_big_size/FixFileAsJoyo-4             	  256779	      4670 ns/op	    8352 B/op	       4 allocs/op
-Benchmark_big_size/FixFileAsJoyo-4             	  254404	      4498 ns/op	    8352 B/op	       4 allocs/op
-Benchmark_big_size/FixFileAsJoyo-4             	  263654	      4831 ns/op	    8352 B/op	       4 allocs/op
-Benchmark_big_size/FixFileAsJoyo-4             	  273888	      4604 ns/op	    8352 B/op	       4 allocs/op
+Benchmark_small_size/FixStringAsJoyo-4         	 3276235	       363.2 ns/op	      32 B/op	       1 allocs/op
+Benchmark_small_size/FixStringAsJoyo-4         	 3509916	       342.7 ns/op	      32 B/op	       1 allocs/op
+Benchmark_small_size/FixStringAsJoyo-4         	 3322668	       361.8 ns/op	      32 B/op	       1 allocs/op
+Benchmark_small_size/FixStringAsJoyo-4         	 3502194	       374.0 ns/op	      32 B/op	       1 allocs/op
+Benchmark_small_size/FixStringAsJoyo-4         	 3532460	       432.7 ns/op	      32 B/op	       1 allocs/op
+Benchmark_small_size/FixStringAsJoyo-4         	 3253209	       404.1 ns/op	      32 B/op	       1 allocs/op
+Benchmark_small_size/FixStringAsJoyo-4         	 3028240	       370.1 ns/op	      32 B/op	       1 allocs/op
+Benchmark_small_size/FixStringAsJoyo-4         	 2932346	       429.4 ns/op	      32 B/op	       1 allocs/op
+Benchmark_small_size/FixStringAsJoyo-4         	 3161115	       390.9 ns/op	      32 B/op	       1 allocs/op
+Benchmark_small_size/FixStringAsJoyo-4         	 3257524	       385.7 ns/op	      32 B/op	       1 allocs/op
+Benchmark_small_size/FixFileAsJoyo-4           	  210927	      7379 ns/op	    8352 B/op	       4 allocs/op
+Benchmark_small_size/FixFileAsJoyo-4           	  170493	      6909 ns/op	    8352 B/op	       4 allocs/op
+Benchmark_small_size/FixFileAsJoyo-4           	  192744	      8282 ns/op	    8352 B/op	       4 allocs/op
+Benchmark_small_size/FixFileAsJoyo-4           	  190740	      7217 ns/op	    8352 B/op	       4 allocs/op
+Benchmark_small_size/FixFileAsJoyo-4           	  257734	      6781 ns/op	    8352 B/op	       4 allocs/op
+Benchmark_small_size/FixFileAsJoyo-4           	  218014	      7228 ns/op	    8352 B/op	       4 allocs/op
+Benchmark_small_size/FixFileAsJoyo-4           	  173751	      7889 ns/op	    8352 B/op	       4 allocs/op
+Benchmark_small_size/FixFileAsJoyo-4           	  225853	      7349 ns/op	    8352 B/op	       4 allocs/op
+Benchmark_small_size/FixFileAsJoyo-4           	  230870	      6872 ns/op	    8352 B/op	       4 allocs/op
+Benchmark_small_size/FixFileAsJoyo-4           	  206710	      6123 ns/op	    8352 B/op	       4 allocs/op
+Benchmark_big_size/FixStringAsJoyo-4           	    3336	    331674 ns/op	   47744 B/op	       2 allocs/op
+Benchmark_big_size/FixStringAsJoyo-4           	    4017	    320338 ns/op	   47744 B/op	       2 allocs/op
+Benchmark_big_size/FixStringAsJoyo-4           	    3634	    320153 ns/op	   47744 B/op	       2 allocs/op
+Benchmark_big_size/FixStringAsJoyo-4           	    3438	    319145 ns/op	   47744 B/op	       2 allocs/op
+Benchmark_big_size/FixStringAsJoyo-4           	    4296	    294700 ns/op	   47744 B/op	       2 allocs/op
+Benchmark_big_size/FixStringAsJoyo-4           	    3289	    322070 ns/op	   47744 B/op	       2 allocs/op
+Benchmark_big_size/FixStringAsJoyo-4           	    3984	    396872 ns/op	   47744 B/op	       2 allocs/op
+Benchmark_big_size/FixStringAsJoyo-4           	    3832	    342548 ns/op	   47744 B/op	       2 allocs/op
+Benchmark_big_size/FixStringAsJoyo-4           	    3421	    319291 ns/op	   47744 B/op	       2 allocs/op
+Benchmark_big_size/FixStringAsJoyo-4           	    3990	    305250 ns/op	   47744 B/op	       2 allocs/op
+Benchmark_big_size/FixFileAsJoyo-4             	  176602	      7632 ns/op	    8352 B/op	       4 allocs/op
+Benchmark_big_size/FixFileAsJoyo-4             	  163828	      7334 ns/op	    8352 B/op	       4 allocs/op
+Benchmark_big_size/FixFileAsJoyo-4             	  157771	      6986 ns/op	    8352 B/op	       4 allocs/op
+Benchmark_big_size/FixFileAsJoyo-4             	  171216	      8372 ns/op	    8352 B/op	       4 allocs/op
+Benchmark_big_size/FixFileAsJoyo-4             	  217621	      8025 ns/op	    8352 B/op	       4 allocs/op
+Benchmark_big_size/FixFileAsJoyo-4             	  225745	      7692 ns/op	    8352 B/op	       4 allocs/op
+Benchmark_big_size/FixFileAsJoyo-4             	  126447	      8371 ns/op	    8352 B/op	       4 allocs/op
+Benchmark_big_size/FixFileAsJoyo-4             	  190125	      7892 ns/op	    8352 B/op	       4 allocs/op
+Benchmark_big_size/FixFileAsJoyo-4             	  174493	      6189 ns/op	    8352 B/op	       4 allocs/op
+Benchmark_big_size/FixFileAsJoyo-4             	  225500	      5893 ns/op	    8352 B/op	       4 allocs/op
 PASS
-ok  	github.com/KEINOS/go-joyokanjis/kanjis	65.999s
+ok  	github.com/KEINOS/go-joyokanjis/kanjis	71.214s
 PASS
-ok  	github.com/KEINOS/go-joyokanjis/kanjis/internal	1.012s
+ok  	github.com/KEINOS/go-joyokanjis/kanjis/converter	0.164s
 PASS
-ok  	github.com/KEINOS/go-joyokanjis/kanjis/internal/tool	0.256s
+ok  	github.com/KEINOS/go-joyokanjis/kanjis/internal	0.588s
 PASS
-ok  	github.com/KEINOS/go-joyokanjis/kanjis/kana	0.233s
+ok  	github.com/KEINOS/go-joyokanjis/kanjis/internal/tool	0.182s
 PASS
-ok  	github.com/KEINOS/go-joyokanjis/kanjis/kanji	0.255s
+ok  	github.com/KEINOS/go-joyokanjis/kanjis/kana	0.159s
 PASS
-ok  	github.com/KEINOS/go-joyokanjis/kanjis/transform	0.223s
+ok  	github.com/KEINOS/go-joyokanjis/kanjis/kanji	0.180s

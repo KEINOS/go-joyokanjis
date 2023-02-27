@@ -63,12 +63,10 @@ func initialize() {
 // Also note that kyujitai characters that do not have a shinjitai are returned
 // as is as well.
 func FixRuneAsJoyo(char rune) rune {
-	if ignoreList == nil {
-		return kanjiDict.FixAsJoyo(char)
-	}
-
-	if _, ok := ignoreList[char]; ok {
-		return char
+	if ignoreList != nil {
+		if _, ok := ignoreList[char]; ok {
+			return char
+		}
 	}
 
 	return kanjiDict.FixAsJoyo(char)
