@@ -200,15 +200,15 @@ func ExampleToHiragana() {
 }
 
 func ExampleKanas() {
-	kanas := kana.Kanas("ABCabcあぁいぃうゔぅえぇおぉやゃゆゅよょわゎかゕけゖ")
+	kanas := kana.Kanas("ABCabcあぁいぃうゔぅえぇおぉヤャユュヨョワヮカヵケヶ")
 
 	fmt.Println("Stringer:", kanas)
 	fmt.Println("String:", kanas.String())
 	fmt.Println("ToHiragana:", kanas.ToHiragana())
 	fmt.Println("ToKatakana:", kanas.ToKatakana())
 	// Output:
-	// Stringer: ABCabcあぁいぃうゔぅえぇおぉやゃゆゅよょわゎかゕけゖ
-	// String: ABCabcあぁいぃうゔぅえぇおぉやゃゆゅよょわゎかゕけゖ
+	// Stringer: ABCabcあぁいぃうゔぅえぇおぉヤャユュヨョワヮカヵケヶ
+	// String: ABCabcあぁいぃうゔぅえぇおぉヤャユュヨョワヮカヵケヶ
 	// ToHiragana: ABCabcあぁいぃうゔぅえぇおぉやゃゆゅよょわゎかゕけゖ
 	// ToKatakana: ABCabcアァイィウヴゥエェオォヤャユュヨョワヮカヵケヶ
 }
@@ -216,25 +216,30 @@ func ExampleKanas() {
 func ExampleKanas_MarshalJSON() {
 	kanas := kana.Kanas("あいうえお")
 
+	// Kanas implements json.Marshaler to treat the underlying slice of runes
+	// as a JSON string.
 	kanjiJSON, err := kanas.MarshalJSON()
 	if err != nil {
 		log.Fatal(err)
 	}
 
 	fmt.Println("MarshalJSON:", string(kanjiJSON))
-	// Output: MarshalJSON: "あいうえお"
+	// Output:
+	// MarshalJSON: "あいうえお"
 }
 
 func ExampleKanas_UnmarshalJSON() {
-	// Note the type of the "Data" field is "Kanas"
+	// Note that the type of the "Data" field is "Kanas"
 	type dummy struct {
 		Data kana.Kanas `json:"data"`
 	}
 
 	// Data in JSON format
-	sampleData := []byte(heredoc.Doc(`{
-		"data": "あいうえお"
-	}`))
+	sampleData := []byte(heredoc.Doc(`
+		{
+			"data": "あいうえお"
+		}
+	`))
 
 	// Parse JSON to Go object
 	parsedJSON := dummy{}
