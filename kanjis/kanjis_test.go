@@ -47,7 +47,7 @@ func TestFixFileAsJoyo_out_file_is_dir(t *testing.T) {
 	input := strings.NewReader("これは舊漢字です。")
 
 	output, err := os.Open(t.TempDir())
-	require.NoError(t, err, "failed to open temp dir")
+	require.NoError(t, err, "failed to open temp dir during test setup")
 
 	defer output.Close()
 
@@ -55,7 +55,7 @@ func TestFixFileAsJoyo_out_file_is_dir(t *testing.T) {
 
 	require.Error(t, err,
 		"nil output file should return an error")
-	assert.Contains(t, err.Error(), "failed to write the output file",
+	assert.Contains(t, err.Error(), "failed to convert the input to the output",
 		"it should contain the error reason")
 }
 
@@ -87,7 +87,7 @@ func TestFixFileAsJoyo_fail_during_read(t *testing.T) {
 
 	require.Error(t, err,
 		"it should fail during the scan")
-	assert.Contains(t, err.Error(), "failed to scan the input file",
+	assert.Contains(t, err.Error(), "failed to convert the input to the output",
 		"it should contain the error reason")
 }
 

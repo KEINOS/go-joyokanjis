@@ -8,12 +8,12 @@ package kana
 // converted to each other by adjusting the difference.
 const codeDiff = 'ァ' - 'ぁ' // 0x60 = 0d96
 
-// IsHiraKana returns true if the rune is a Hiragana (hira-kana) that is convertable
+// IsHiragana returns true if the rune is a Hiragana (hira-kana) that is convertable
 // to Katakana.
 //
 // To determine Katakana that has no Hiragana equivalent, use `unicode.In(r, unicode.Hiragana)`
 // instead.
-func IsHiraKana(r rune) bool {
+func IsHiragana(r rune) bool {
 	return (r >= 'ぁ' && r <= 'ゖ')
 }
 
@@ -29,7 +29,7 @@ func IsKatakana(r rune) bool {
 // ToKatakana converts the given Hiragana rune to Katakana.
 // If the given rune is not Hiragana convertable, then it returns as is.
 func ToKatakana(r rune) rune {
-	if IsHiraKana(r) {
+	if IsHiragana(r) {
 		return r + codeDiff
 	}
 

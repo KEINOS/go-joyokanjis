@@ -12,14 +12,13 @@ It provides functions to:
 package kanjis
 
 import (
-	"bufio"
 	"bytes"
 	_ "embed"
 	"io"
 
+	"github.com/KEINOS/go-joyokanjis/kanjis/converter"
 	"github.com/KEINOS/go-joyokanjis/kanjis/internal/tool"
 	"github.com/KEINOS/go-joyokanjis/kanjis/kanji"
-	"github.com/KEINOS/go-joyokanjis/kanjis/transform"
 	"github.com/pkg/errors"
 )
 
@@ -88,25 +87,19 @@ func FixStringAsJoyo(input string) string {
 	return string(inRune)
 }
 
-// FixFileAsJoyo is similar to FixRuneAsJoyo but for large data such as files.
+// FixFileAsJoyo is similar to FixRuneAsJoyo but for file.
 func FixFileAsJoyo(input io.Reader, output io.Writer) error {
 	if input == nil || output == nil {
 		return errors.New("input or output is nil")
 	}
 
-	sc := bufio.NewScanner(spawnWorker(input))
+	tf := converter.New(func(in rune) rune {
+		return FixRuneAsJoyo(in)
+	})
 
-	for sc.Scan() {
-		if _, err := output.Write([]byte(sc.Text() + "\n")); err != nil {
-			return errors.Wrap(err, "failed to write the output file")
-		}
-	}
+	err := tf.Convert(input, output)
 
-	if err := sc.Err(); err != nil && !errors.Is(err, io.EOF) {
-		return errors.Wrap(err, "failed to scan the input file")
-	}
-
-	return nil
+	return errors.Wrap(err, "failed to convert the input to the output")
 }
 
 // Ignore adds the given characters to the ignore list. These characters will be
@@ -156,22 +149,4 @@ func extractEmbeddedData() error {
 	// kanjiDict
 	return errors.Wrap(tool.ExtractGzipGobToDict(src, &kanjiDict),
 		"failed to extract and decode the embedded GZipped Gob encoded data")
-}
-
-// spawnWorker returns a transform.Transformer object as an io.Reader that
-// performs the conversion during scanning the input data.
-//
-// It is a wrapper of FixRuneAsJoyo() to be used with bufio.Scanner.
-func spawnWorker(src io.Reader) io.Reader {
-	br := bufio.NewReader(src)
-
-	return transform.NewTransformer(func() ([]byte, error) {
-		char, _, err := br.ReadRune()
-		if err != nil {
-			return nil, errors.Wrap(err,
-				"failed to read a line during transformation")
-		}
-
-		return []byte(string(FixRuneAsJoyo(char))), nil
-	})
 }

@@ -12,6 +12,7 @@ require (
 	github.com/stretchr/testify v1.8.1
 	github.com/zenizh/go-capturer v0.0.0-20211219060012-52ea6c8fed04
 	golang.org/x/exp v0.0.0-20230203172020-98cc5a0785f9
+	golang.org/x/text v0.7.0
 )
 
 require (

@@ -118,22 +118,27 @@ goos: darwin
 goarch: amd64
 pkg: github.com/KEINOS/go-joyokanjis/kanjis
 cpu: Intel(R) Core(TM) i5-5257U CPU @ 2.70GHz
+                              │ bench_results.txt │
+                              │      sec/op       │
+_small_size/FixStringAsJoyo-4        384.7n ±  3%
+_small_size/FixFileAsJoyo-4          5.935µ ± 89%
+_big_size/FixStringAsJoyo-4          308.5µ ±  2%
+_big_size/FixFileAsJoyo-4            4.705µ ± 15%
+geomean                              7.587µ
 
-name                           time/op
-_small_size/FixStringAsJoyo-4   350ns ± 1%
-_small_size/FixFileAsJoyo-4    6.29µs ± 4%
-_big_size/FixStringAsJoyo-4     279µs ± 0%
-_big_size/FixFileAsJoyo-4      6.34µs ± 2%
+                              │ bench_results.txt │
+                              │       B/op        │
+_small_size/FixStringAsJoyo-4          32.00 ± 0%
+_small_size/FixFileAsJoyo-4          8.156Ki ± 0%
+_big_size/FixStringAsJoyo-4          46.62Ki ± 0%
+_big_size/FixFileAsJoyo-4            8.156Ki ± 0%
+geomean                              3.138Ki
 
-name                           alloc/op
-_small_size/FixStringAsJoyo-4   32.0B ± 0%
-_small_size/FixFileAsJoyo-4    8.70kB ± 0%
-_big_size/FixStringAsJoyo-4    47.7kB ± 0%
-_big_size/FixFileAsJoyo-4      8.70kB ± 0%
-
-name                           allocs/op
-_small_size/FixStringAsJoyo-4    1.00 ± 0%
-_small_size/FixFileAsJoyo-4      9.00 ± 0%
-_big_size/FixStringAsJoyo-4      2.00 ± 0%
-_big_size/FixFileAsJoyo-4        9.00 ± 0%
+                              │ bench_results.txt │
+                              │     allocs/op     │
+_small_size/FixStringAsJoyo-4          1.000 ± 0%
+_small_size/FixFileAsJoyo-4            4.000 ± 0%
+_big_size/FixStringAsJoyo-4            2.000 ± 0%
+_big_size/FixFileAsJoyo-4              4.000 ± 0%
+geomean                                2.378
 ```
