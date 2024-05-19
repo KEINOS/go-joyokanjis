@@ -4,8 +4,10 @@ Package kanjis is a set of handy function to access the singleton kanji.Dict obj
 It provides functions to:
 
 1. Convert old kanji (kyujitai, 旧字体, 旧漢字) to new kanji (shinjitai, 新字体, 新漢字).
-1. Detect if the given character is a joyo kanji (常用漢字) from shinjitai (新字体・新漢字).
-1. Search for the readings (読み, yomi) of the given kanji.
+
+2. Detect if the given character is a joyo kanji (常用漢字) from shinjitai (新字体・新漢字).
+
+3. Search for the readings (読み, yomi) of the given kanji.
 
 */
 //go:generate go run internal/converter.go

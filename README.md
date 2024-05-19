@@ -1,8 +1,11 @@
+[![go1.19+](https://img.shields.io/badge/Go-1.19+-blue?logo=go)](https://github.com/KEINOS/go-joyokanjis/blob/main/go.mod "Supported versions")
+[![Go Reference](https://pkg.go.dev/badge/github.com/KEINOS/go-gisty.svg)](https://pkg.go.dev/github.com/KEINOS/go-joyokanjis/kanjis)
+
 # go-joyokanjis
 
-`go-joyokanjis` is a simple Go library for Japanese writings that lint or determines whether a given kanji character is [jōyō-kanji](https://en.wikipedia.org/wiki/J%C5%8Dy%C5%8D_kanji) (常用漢字, regular-use Chinese characters in Japan) or not.
+`go-joyokanjis` is a simple Go library for Japanese writings that lint or determines whether a given kanji character is a [jōyō-kanji](https://en.wikipedia.org/wiki/J%C5%8Dy%C5%8D_kanji) (常用漢字, regular-use Chinese characters in Japan) or not.
 
-Useful for uniforming the kanji characters in the writings.
+Useful for uniforming the kanji characters in the writings. Currently, it supports 2,136 jōyō-kanji characters.
 
 > __Note__: This library is based on Unicode (UTF-8) and does not support other Japanese character encodings such as JIS/SJIS/EUC/etc.
 
