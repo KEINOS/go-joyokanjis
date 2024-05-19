@@ -4,7 +4,7 @@
 
 Useful for uniforming the kanji characters in the writings.
 
-This library is based on Unicode and does not support other Japanese character encodings such as JIS/SJIS/EUC/etc.
+> __Note__: This library is based on Unicode (UTF-8) and does not support other Japanese character encodings such as JIS/SJIS/EUC/etc.
 
 ## Usage
 
